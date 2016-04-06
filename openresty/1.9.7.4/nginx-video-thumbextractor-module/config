@@ -1,0 +1,9 @@
+ngx_addon_name=ngx_http_video_thumbextractor_module
+ngx_feature_libs="-L/usr/local/cpffmpeg/lib -lavformat -lavcodec -lavutil -lavfilter -lswscale -lswresample -lpostproc -ljpeg"
+HTTP_AUX_FILTER_MODULES="$HTTP_AUX_FILTER_MODULES $ngx_addon_name"
+CORE_INCS="$CORE_INCS \
+    $ngx_addon_dir/src \
+    $ngx_addon_dir/include"
+NGX_ADDON_SRCS="$NGX_ADDON_SRCS \
+    ${ngx_addon_dir}/src/ngx_http_video_thumbextractor_module.c"
+CORE_LIBS="$CORE_LIBS $ngx_feature_libs"
