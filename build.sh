@@ -1,24 +1,15 @@
-#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cpffmpeg/lib
-sudo apt-get install -y --force-yes libhiredis-dev libgd-dev libjpeg-dev libmagickwand-dev libgd-dev  libimlib2-dev libwebp-dev
-#cd /home/baysao/Project/openresty/openresty/1.9.7.4/ngx_small_light;./setup
-#~/.go/bin/nginx-build -d=../openresty -j=4 \
-/home/baysao/.go/src/github.com/cubicdaiya/nginx-build/nginx-build -d=../openresty -j=4 \
--with-ld-opt='-lwebp' \
---resty-opt='--with-luajit' \
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+find openresty -type f -iname ngx_http_image_filter_module.c | while read f;do cp ngx_http_image_filter_module.c $f;done
+sudo apt-get install -y --force-yes build-essential zlib1g-dev libpcre3-dev libhiredis-dev libgd-dev libjpeg-dev libmagickwand-dev libgd-dev  libimlib2-dev libwebp-dev libgraphicsmagick1-dev libyajl-dev
+$HOME/.go/bin/nginx-build -d=../openresty -j=4 \
+--resty-opt='--with-luajit --with-pcre-jit --with-http_image_filter_module --with-http_gzip_static_module --with-http_geoip_module  --with-http_ssl_module --with-ipv6  --with-sha1=/usr/include/openssl --with-md5=/usr/include/openssl' \
+--with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2' \
+--with-ld-opt='-Wl,-z,relro -Wl,--as-needed -L/usr/local/cpffmpeg/lib -lwebp' \
 -m=modules.conf \
 -openresty -pcre -openssl \
--with-pcre-jit=true \
--with-http_v2_module=true --with-pcre-jit --with-mail_ssl_module \
---with-http_image_filter_module --with-http_gzip_static_module --with-http_geoip_module  \
---with-http_ssl_module \
+-with-http_v2_module=true \
 -with-file-aio=true \
 -with-threads=true \
--verbose=true \
---add-module=nginx-upload-module1 
-#--add-module=./ngx_pagespeed-1.9.32.10-beta \
-#--with-http_stub_status_module \
-#-add-module=./ngx_pagespeed-1.8.31.4-beta \
-#--with-cc-opt=\'-D_GLIBCXX_USE_CXX11_ABI=0\' \
-#--with-cc-opt=\'-march=i686\' \
-#--add-module=./openresty/1.9.7.4/ngx_pagespeed \
-#--with-http_flv_module --with-http_mp4_module \
+--add-module=nginx-upload-module  \
+-verbose=true 
